@@ -1,17 +1,27 @@
 {
-  "name": "audi-red-podcast-concept",
+  "name": "nextjs-payload-postgres-starter",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:up": "docker compose --env-file .env.local up -d",
+    "db:down": "docker compose --env-file .env.local down",
+    "db:reset": "docker compose --env-file .env.local down -v && docker compose --env-file .env.local up -d"
   },
   "dependencies": {
+    "@payloadcms/db-postgres": "^3.64.0",
+    "@payloadcms/next": "^3.64.0",
+    "@payloadcms/richtext-lexical": "^3.64.0",
+    "graphql": "^16.12.0",
     "next": "16.0.3",
+    "payload": "^3.64.0",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

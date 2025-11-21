@@ -1,0 +1,57 @@
+# Next.js + Payload CMS Starter Template
+# 
+# To customize for your project:
+# 1. Replace "payload-nextjs" with your project name (e.g., "acme-blog")
+# 2. Update DATABASE_NAME in .env.local
+# 3. Run: docker compose down -v && npm run db:up
+
+services:
+  # payload:
+  #   image: node:18-alpine
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - .:/home/node/app
+  #     - node_modules:/home/node/app/node_modules
+  #   working_dir: /home/node/app/
+  #   command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+  #   depends_on:
+  #     - postgres
+  #   env_file:
+  #     - .env
+
+
+  # Uncomment the following to use postgres
+  postgres:
+    restart: always
+    image: postgres:18-alpine
+    container_name: payload-nextjs-db
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "${DATABASE_PORT}:5432"
+    volumes:
+      - app_db_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgweb:
+    image: sosedoff/pgweb
+    container_name: payload-nextjs-db-admin
+    ports:
+      - "8081:8081"
+    environment:
+      DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:${DATABASE_PORT}/${DATABASE_NAME}?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  app_db_data:
+    name: payload_nextjs_db_data
+    driver: local

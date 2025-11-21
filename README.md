@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js + Payload CMS + Postgres Starter Template
 
-## Getting Started
+A starter template combining [Next.js 15](https://nextjs.org) with [Payload CMS](https://payloadcms.com) and PostgreSQL.
 
-First, run the development server:
+## Quick Start
+
+### 1. Clone & Install
+
+```bash
+npm install
+```
+
+### 2. Configure Environment
+
+```bash
+cp .env.example .env.local
+# Edit .env.local if needed (defaults work for local development)
+```
+
+### 3. Start Database
+
+```bash
+npm run db:up
+```
+
+This starts:
+
+- PostgreSQL 18 (Alpine) at `localhost:5432`
+- PGWeb admin UI at `http://localhost:8081`
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) - your app is ready!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What's Included
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 15** - React framework with App Router
+- **Payload CMS** - Headless CMS with PostgreSQL
+- **Docker Compose** - PostgreSQL 18 + PGWeb admin UI
+- **TypeScript** - Type safety across the stack
+- **ESLint** - Code quality and consistency
 
-## Learn More
+## 🗄️ Database Management
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run db:up      # Start database
+npm run db:down    # Stop database
+npm run db:reset   # Reset database (removes all data)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Access PGWeb:** http://localhost:8081
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Customizing for Your Project
 
-## Deploy on Vercel
+### Option 1: Keep Generic Names (Recommended)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Leave as-is. The generic names (`payload-nextjs-*`, `app_db`) work for any project.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Option 2: Customize Container Names
+
+Edit `docker-compose.yml` and replace:
+
+- `payload-nextjs` → `your-project-name`
+- `app_db_data` → `your_project_db_data`
+- `payload_nextjs_db` → `your_project_db`
+
+Then run:
+
+```bash
+npm run db:reset
+npm run db:up
+```
