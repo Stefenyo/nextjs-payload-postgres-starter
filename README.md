@@ -44,7 +44,7 @@ Open [http://localhost:3000](http://localhost:3000) - your app is ready!
 - **TypeScript** - Type safety across the stack
 - **ESLint** - Code quality and consistency
 
-## 🗄️ Database Management
+## Database Management
 
 ```bash
 npm run db:up      # Start database
